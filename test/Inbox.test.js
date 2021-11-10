@@ -11,13 +11,24 @@ beforeEach(async()=>{
     accounts = await web3.eth.getAccounts()
 
     inbox = await new web3.eth.Contract(JSON.parse(interface))
-    .deploy({data:bytecode,arguments:['Hi there !']})
+    .deploy({data:bytecode,arguments:['Hi there!']})
     .send({from:accounts[0],gas:'1000000'})
 })
 
 describe('Inbox',()=>{
     it('Deploys contract', ()=>{
-        console.log(inbox)
+        assert.ok(inbox.options.address)
+    })
+
+    it('Has a default message',async()=>{
+        const message =await inbox.methods.message().call()
+        assert.equal(message,'Hi there!')
+    })
+    
+    it('can change the message', async ()=>{
+        await inbox.methods.setMessage('bye').send({from:accounts[1]})
+        const message = await inbox.methods.message().call()
+        assert.equal(message,'bye')
     })
 })
 /*class Car{
