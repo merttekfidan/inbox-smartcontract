@@ -6,7 +6,7 @@ const {interface,bytecode} = require('../compile')
 const web3 = new Web3(ganache.provider())
 let accounts;
 let inbox;
-
+// https://rinkeby.infura.io/v3/c9f0a049027845e9a6a5e1c06238cdad
 beforeEach(async()=>{
     accounts = await web3.eth.getAccounts()
 
